@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import './AuthForm.css';
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const AuthForm =()=>{
     // const authCtx = useContext(AuthContext);
@@ -9,7 +10,7 @@ const AuthForm =()=>{
   const [isLogin, setIsLogin] = useState(true);
 //   const [error, setError] = useState('');
 //   const [isLoading, setIsLoading] = useState(false);
-//   const history = useHistory();
+  const history = useHistory();
 
 
   const switchAuthModeHandler = () => {
@@ -22,12 +23,14 @@ const AuthForm =()=>{
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
-    const enteredConfirmPassword = confirmPasswordInputRef.current.value;
 
-    if (!isLogin && enteredPassword !== enteredConfirmPassword) {
-            // setError('Passwords do not match');
+    if (!isLogin && confirmPasswordInputRef.current) {
+        const enteredConfirmPassword = confirmPasswordInputRef.current.value;
+
+        if (enteredPassword !== enteredConfirmPassword) {
             alert('Passwords do not match');
             return; // Do not proceed further
+        }
     }
 
 
@@ -60,8 +63,9 @@ const AuthForm =()=>{
           }
         }
       ).then(data=>{
+        alert("Logged In Successfully");
       //   authCtx.login(data.idToken);
-      //   history.replace('/');
+        history.replace('/dummy');
       }).catch(err=>{
         alert(err.message);
       })
