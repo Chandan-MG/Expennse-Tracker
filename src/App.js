@@ -2,8 +2,9 @@
 import { Redirect, Route, Switch } from 'react-router-dom/cjs/react-router-dom';
 import './App.css';
 import AuthForm from './Components/Auth/AuthForm';
-import DummyScreen from './Components/Auth/DummyScreen';
 import Layout from './Components/Layout/Layout';
+import ExpenceTracker from './Components/ExpenceTracker/ExpenceTracker';
+import UpdateProfile from './Components/UpdateProfile/UpdateProfile';
 
 function App() {
   return (
@@ -15,8 +16,11 @@ function App() {
         <Route path='/' exact>
           <AuthForm />
         </Route>
-        <Route path='/dummy' exact>
-          <DummyScreen />
+        <Route path='/expenceTracker'>
+          <ExpenceTracker />
+        </Route>
+        <Route path='/updateProfile'>
+          <UpdateProfile />
         </Route>
         <Route path='*'>
           <Redirect to='/' />

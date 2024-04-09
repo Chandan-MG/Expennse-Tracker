@@ -1,0 +1,72 @@
+.header {
+    width: 100%;
+    height: 5rem;
+    /* background-color: #38015c; */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2%;
+}
+
+.profile-input{
+    padding: 1rem;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    /* flex-direction: column; */
+    max-width: 10vw;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.prile-input input{
+    height: 3vh;
+    font-size: 14px;
+}
+.button button{
+    font: inherit;
+    cursor: pointer;
+    padding: 1rem 2rem;
+    border: 1px solid #00135d;
+    background-color: #00135d;
+    color: white;
+    border-radius: 12px;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.box {
+    margin: 0 10px; /* Add margin between the divs */
+}
+
+.profile-card{
+    border-radius: 12px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+    max-width: 85vw;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.candy-input-quantity{
+    padding: 1rem;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    /* flex-direction: column; */
+    max-width: 12vw;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.quantity-box input {
+    margin: 0 5px; /* Add margin between the divs */
+    max-width: 2vw;
+    width: 100%;
+    height: 3vh;
+    font-size: 14px;
+    
+}

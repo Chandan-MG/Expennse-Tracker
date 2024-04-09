@@ -65,7 +65,7 @@ const AuthForm =()=>{
       ).then(data=>{
         alert("Logged In Successfully");
       //   authCtx.login(data.idToken);
-        history.replace('/dummy');
+        history.replace('/expenceTracker');
       }).catch(err=>{
         alert(err.message);
       })
