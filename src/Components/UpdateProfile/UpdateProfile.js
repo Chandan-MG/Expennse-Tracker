@@ -2,15 +2,22 @@ import React, { useContext, useRef } from "react";
 import './UpdateProfile.css';
 import {Row, Button, Col} from 'react-bootstrap';
 import AuthContext from "../Context-folder/Auth-Context";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const UpdateProfile = () => {
     const authCtx = useContext(AuthContext);
+    const history = useHistory();
 
     const nameInputRef = useRef();
     const imageInputRef = useRef();
 
     const completeNowHandler = () => {
         alert("opened");
+    }
+
+    const logoutHandler = () => {
+        authCtx.logout();
+        history.replace('/');
     }
 
     const formSubmitHandler =(event) => {
@@ -124,13 +131,21 @@ const UpdateProfile = () => {
 
     return(
         <>
-            <div className="header">
-                <Row>
+            <div className="header" style={{width: '100vw'}}>
+                <Row  style={{width: '50vw'}}>
                     <h5>Winners never Quite, Quitters never win.</h5>
                 </Row>
-                <Row>
-                <span>Your profile is incomplete.<Button variant="link" style={{ textDecoration: 'none' }} onClick={completeNowHandler}>Complete now</Button> </span>
+                <Row style={{width: '40vw'}}>
+                    <Col>
+                        <Row style={{width: '33vw'}}>
+                            <span className="d-flex justify-content-end">Your profile is incomplete.<Button variant="link" style={{ textDecoration: 'none' }} onClick={completeNowHandler}>Complete now</Button> </span>
+                        </Row>
+                    </Col >
+                    <Col className="d-flex justify-content-end">
+                        <Button variant="secondary" onClick={logoutHandler}>Logout</Button>
+                    </Col>
                 </Row>
+                
                 
             </div>
             <div style={{padding:"0 10%"}}>
