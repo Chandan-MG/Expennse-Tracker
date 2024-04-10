@@ -56,6 +56,39 @@ const UpdateProfile = () => {
         })
 
     }
+
+    const editHandler = () => {
+        const userId = authCtx.token;
+        let url='https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCMiBeqYWzNFH0oUHL8f_fV1zZ8cXp7QDI';
+        fetch(url,
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                idToken: userId
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        ).then(response =>{
+            if(response.ok){
+                return response.json();
+            }
+            else{
+                return response.json().then((data)=>{
+                    let errorMessage = 'Something went wrong...';
+                    console.log(data);
+                    throw new Error(errorMessage);
+                })
+            }
+        }
+        ).then(data=>{
+            alert("Data")
+        }).catch(err=>{
+            alert(err.message);
+        })
+    }
+    
     return(
         <>
             <div className="header">
