@@ -1,8 +1,11 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import './UpdateProfile.css';
-import {Row, Button} from 'react-bootstrap';
+import {Row, Button, Col} from 'react-bootstrap';
+import AuthContext from "../Context-folder/Auth-Context";
 
 const UpdateProfile = () => {
+    const authCtx = useContext(AuthContext);
+
     const nameInputRef = useRef();
     const imageInputRef = useRef();
 
@@ -13,6 +16,9 @@ const UpdateProfile = () => {
     const formSubmitHandler =(event) => {
         event.preventDefault();
 
+        const token = authCtx.token;
+        console.log(token);
+        const returntoken = authCtx.isLoggedIn;
         const name = nameInputRef.current.value;
         const image = imageInputRef.current.value;
 
@@ -21,9 +27,11 @@ const UpdateProfile = () => {
         {
             method: 'POST',
             body: JSON.stringify({
-                idToken: name,
+                idToken: token,
                 displayName: name,
-                photoUrl: image
+                photoUrl: image,
+                // deleteAttribute: [],
+                returnSecureToken: returntoken
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -31,12 +39,12 @@ const UpdateProfile = () => {
         }
         ).then(response =>{
             if(response.ok){
-            return response.json();
+                return response.json();
             }
             else{
             return response.json().then((data)=>{
-                let errorMessage = 'Authentication failed...';
-                
+                let errorMessage = 'Something went wrong...';
+                console.log(data);
                 throw new Error(errorMessage);
             })
             }
@@ -44,7 +52,7 @@ const UpdateProfile = () => {
         ).then(data=>{
             alert("Profile updated")
         }).catch(err=>{
-        alert(err.message);
+            alert(err.message);
         })
 
     }
@@ -59,29 +67,32 @@ const UpdateProfile = () => {
                 </Row>
                 
             </div>
-            <div>
+            <div style={{padding:"0 10%"}}>
+                
                 <form onSubmit={formSubmitHandler}>
                     <div className="profile-card">
-                        <div className="profile-input">
-                            <div className="box">
-                                <h3>Full Name</h3>
-                            </div>
-                            <div className="box">
+                        <Row>
+                            <Col>
+                                <h3>Contact Details</h3>
+                            </Col>
+                        </Row>
+                        <Row className="input">
+                            <Col>
+                                <label id="name" style={{marginRight: '5px'}}>Full Name</label>
                                 <input type="text" id='name' required ref={nameInputRef} />
-                            </div>
-                        </div>
-                        <div className="profile-input">
-                            <div className="box">
-                                <h3>Profile photo URL</h3>
-                            </div>
-                            <div className="box">
+                            </Col>
+                            
+                            <Col>
+                                <label id="imageURL" style={{marginRight: '5px'}}>Profile photo URL</label>
                                 <input type="text" id='imageURL' required ref={imageInputRef} />
-                            </div>
-                        </div>
+                            </Col>
+                        </Row>
                         
-                        <div className="button">
-                            <button type="submit">Add</button>
-                        </div>
+                        <Row>
+                            <Col className="button">
+                                <button type="submit">Add</button>
+                            </Col>
+                        </Row>
                     </div>
                 </form>
             </div>

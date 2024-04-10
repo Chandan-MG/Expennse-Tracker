@@ -1,15 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import './AuthForm.css';
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import AuthContext from "../Context-folder/Auth-Context";
 
 const AuthForm =()=>{
-    // const authCtx = useContext(AuthContext);
+    const authCtx = useContext(AuthContext);
   const emailInputRef =  useRef();
   const passwordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
   const [isLogin, setIsLogin] = useState(true);
-//   const [error, setError] = useState('');
-//   const [isLoading, setIsLoading] = useState(false);
+  
   const history = useHistory();
 
 
@@ -34,8 +34,6 @@ const AuthForm =()=>{
     }
 
 
-    // setIsLoading(true);
-    // let url;
     if(isLogin){
       const url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBfN_rvlQLuGfWZLKBXkJs5O1sGGMUVxwo';
       fetch(url,
@@ -64,7 +62,7 @@ const AuthForm =()=>{
         }
       ).then(data=>{
         alert("Logged In Successfully");
-      //   authCtx.login(data.idToken);
+        authCtx.login(data.idToken);
         history.replace('/expenceTracker');
       }).catch(err=>{
         alert(err.message);
@@ -99,6 +97,7 @@ const AuthForm =()=>{
         }
       ).then(data=>{
         alert("Account created successfully....");
+        // history.replace('/');
         emailInputRef.current.value = '';
         passwordInputRef.current.value = '';
         confirmPasswordInputRef.current.value = '';
