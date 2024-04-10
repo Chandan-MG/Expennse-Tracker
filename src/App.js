@@ -5,6 +5,7 @@ import AuthForm from './Components/Auth/AuthForm';
 import Layout from './Components/Layout/Layout';
 import ExpenceTracker from './Components/ExpenceTracker/ExpenceTracker';
 import UpdateProfile from './Components/UpdateProfile/UpdateProfile';
+import DailyExpenses from './Components/Expenses/ExpenseInput';
 
 function App() {
   return (
@@ -21,6 +22,11 @@ function App() {
         </Route>
         <Route path='/updateProfile'>
           <UpdateProfile />
+        </Route>
+        <Route path='/dailyExpense'>
+          <div style={{padding: '2% 40%'}} >
+            <DailyExpenses />
+          </div>
         </Route>
         <Route path='*'>
           <Redirect to='/' />
