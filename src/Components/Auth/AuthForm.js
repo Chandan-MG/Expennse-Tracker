@@ -2,6 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import './AuthForm.css';
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import AuthContext from "../Context-folder/Auth-Context";
+import Button from 'react-bootstrap/Button';
 
 const AuthForm =()=>{
     const authCtx = useContext(AuthContext);
@@ -105,49 +106,88 @@ const AuthForm =()=>{
         alert(err.message);
       })
     }
-    
+  }
+
+  const forgotHandler = () => {
+    const email = emailInputRef.current.value;
+    const url = 'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBfN_rvlQLuGfWZLKBXkJs5O1sGGMUVxwo';
+    fetch(url,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            requestType:"PASSWORD_RESET",
+            email: email
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      ).then(response =>{
+          // setIsLoading(false);
+          if(response.ok){
+            return response.json();
+          }
+          else{
+            return response.json().then((data)=>{
+              let errorMessage = 'Something went wrong...';
+              throw new Error(errorMessage);
+            })
+          }
+        }
+      ).then(data=>{
+        alert("Reset link shared, please check the email...");
+      }).catch(err=>{
+        alert(err.message);
+      })
   }
     return(
-        <section className='auth'>
-            <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-            <form onSubmit={submitHandler}>
-                <div className='control'>
-                    <label htmlFor='email'>Your Email</label>
-                    <input type='email' id='email' required ref={emailInputRef} placeholder="Email" />
+        <>
+            <section className='auth'>
+                <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
+                <form onSubmit={submitHandler}>
+                    <div className='control'>
+                        <label htmlFor='email'>Your Email</label>
+                        <input type='email' id='email' required ref={emailInputRef} placeholder="Email" />
+                    </div>
+                    <div className='control'>
+                        <label htmlFor='password'>Your Password</label>
+                        <input
+                            type='password'
+                            id='password'
+                            // required
+                            ref={passwordInputRef}
+                            placeholder="Password"
+                        />
+                    </div>
+                    {!isLogin && (<div className='control'>
+                        <label htmlFor='password'>Confirm Password</label>
+                        <input
+                            type='password'
+                            id='password'
+                            required
+                            ref={confirmPasswordInputRef}
+                            placeholder="Confirm Password"
+                        />
+                    </div>)}
+                    <div className='actions'>
+                        <button type='submit'>{isLogin? 'Login' : 'Create Account'}</button>
+                        {/* {isLoading && <p style={{color: 'white'}}>Sending request....</p>} */}
+                        { isLogin && (<button className='toggle' type="button" onClick={forgotHandler}>Forgot Password</button>)}
+                    </div>
+                </form>
+            </section>
+            <section className='sec-auth'>
+                <div className='sec-actions'>
+                        <button
+                            type='button'
+                            className='toggle'
+                            onClick={switchAuthModeHandler}
+                        >
+                            {isLogin ? 'Create new account' : 'Login with existing account'}
+                        </button>
                 </div>
-                <div className='control'>
-                    <label htmlFor='password'>Your Password</label>
-                    <input
-                        type='password'
-                        id='password'
-                        required
-                        ref={passwordInputRef}
-                        placeholder="Password"
-                    />
-                </div>
-                {!isLogin && (<div className='control'>
-                    <label htmlFor='password'>Confirm Password</label>
-                    <input
-                        type='password'
-                        id='password'
-                        required
-                        ref={confirmPasswordInputRef}
-                        placeholder="Confirm Password"
-                    />
-                </div>)}
-                <div className='actions'>
-                    <button type='submit'>{isLogin? 'Login' : 'Create Account'}</button>
-                    {/* {isLoading && <p style={{color: 'white'}}>Sending request....</p>} */}
-                    <button
-                        type='button'
-                        className='toggle'
-                        onClick={switchAuthModeHandler}
-                    >
-                        {isLogin ? 'Create new account' : 'Login with existing account'}
-                    </button>
-                </div>
-            </form>
-        </section>
+            </section>
+        </>
     )
 }
 
