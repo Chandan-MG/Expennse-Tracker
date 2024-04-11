@@ -29,7 +29,6 @@ const ExpenseInput = (props) => {
         }
 
         const expenseData = {
-            id: Math.random(),
             money : enteredMoney,
             description : enteredDescription,
             category : enteredCategory

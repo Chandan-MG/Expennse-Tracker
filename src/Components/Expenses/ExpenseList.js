@@ -12,8 +12,14 @@ const ExpenceList = () =>{
                 const response = await fetch(`https://expense-tracker-dfeec-default-rtdb.firebaseio.com/expense.json`);
                 if (response.ok) {
                     const expenseItemsObject = await response.json();
-                    const expenseItemsArray = Object.values(expenseItemsObject); // Convert object to array
-                    setExpense(expenseItemsArray);
+                    // console.log(expenseItemsObject);
+                    const keys = Object.keys(expenseItemsObject);
+                    const expensesArray = keys.map(key => ({
+                        id: key,
+                        ...expenseItemsObject[key]
+                    }));
+                    setExpense(expensesArray);
+                    // console.log(_id);
                 }
             } catch (error) {
                 console.error('Error fetching:', error);
