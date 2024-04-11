@@ -19,7 +19,7 @@ const ExpenseInput = (props) => {
         setEnteredCategory(event.target.value);
     }
 
-    const submitFormHandler = (event) =>{
+    const submitFormHandler = async (event) =>{
         event.preventDefault();
 
 
@@ -29,13 +29,24 @@ const ExpenseInput = (props) => {
         }
 
         const expenseData = {
+            id: Math.random(),
             money : enteredMoney,
             description : enteredDescription,
             category : enteredCategory
         };
 
 
-        onAddExpense(expenseData);
+        const response = await fetch(
+            `https://expense-tracker-dfeec-default-rtdb.firebaseio.com/expense.json`,
+            {
+              method: "POST",
+              body: JSON.stringify(expenseData),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+        );
+
         setEnteredMoney('');
         setEnteredDescription('');
         setEnteredCategory('');
@@ -48,7 +59,8 @@ const ExpenseInput = (props) => {
             description: expense.description,
             category: expense.category
         };
-        setExpenseData(prevExpense => [ ...prevExpense, newExpense]);
+        // setExpenseData(prevExpense => [ ...prevExpense, newExpense]);
+        
     }
 
 
