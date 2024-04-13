@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import './Expense.css';
 import {Row, Col, Button} from 'react-bootstrap';
+import ExpenseContext from "../Context-folder/Expense-Context";
+
+import {useDispatch} from 'react-redux';
+import { expenseActions } from "../../Store";
 
 const Expense = (props) => {
+    // const expenseCtx = useContext(ExpenseContext);
+
+    const dispatch = useDispatch();
 
     const deleteExpenseHandler = async (id) => {
         // console.log(id);
@@ -22,12 +29,14 @@ const Expense = (props) => {
     };
 
     const handleEdit = () => {
-        onEdit({
+        const value = {
             id: props.id,
             money: props.money,
             description: props.description,
             category: props.category
-        });
+        };
+        dispatch(expenseActions.editedItem(value));
+        // expenseCtx.onEdit(value);
     };
 
     return(  
@@ -35,7 +44,9 @@ const Expense = (props) => {
         <Row className="expense-row">
             <Col xs={3} className="expense-col">
                 {props.money}
+                { props.money > 10000 && (<Button variant="warning">Premium</Button>)}
             </Col>
+
             <Col xs={3} className="expense-col">
                 {props.description}
             </Col>

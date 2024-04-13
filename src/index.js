@@ -8,15 +8,17 @@ import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom';
 // import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthContextProvider } from './Components/Context-folder/Auth-Context';
-
+import { ExpenseContextProvider } from './Components/Context-folder/Expense-Context';
+import {Provider} from 'react-redux';
+import store from './Store/index.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AuthContextProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </AuthContextProvider>
+  <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

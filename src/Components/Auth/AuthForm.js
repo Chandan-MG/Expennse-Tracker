@@ -3,19 +3,25 @@ import './AuthForm.css';
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import AuthContext from "../Context-folder/Auth-Context";
 import Button from 'react-bootstrap/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { authActions } from "../../Store";
 
 const AuthForm =()=>{
-    const authCtx = useContext(AuthContext);
+
+  const dispatch = useDispatch();
+  
+  // const authCtx = useContext(AuthContext);
   const emailInputRef =  useRef();
   const passwordInputRef = useRef();
   const confirmPasswordInputRef = useRef();
-  const [isLogin, setIsLogin] = useState(true);
-  
+  // const [isLogin, setIsLogin] = useState(true);
+  const isLogin = useSelector(state => state.auth.isLoggedIn)
   const history = useHistory();
 
 
   const switchAuthModeHandler = () => {
-    setIsLogin((prevState) => !prevState);
+    // setIsLogin((prevState) => !prevState);
+    dispatch(authActions.toggleMode());
   };
 
   const submitHandler =(event)=>{
@@ -63,7 +69,8 @@ const AuthForm =()=>{
         }
       ).then(data=>{
         alert("Logged In Successfully");
-        authCtx.login(data.idToken);
+        // authCtx.login(data.idToken);
+        authActions.login({ token: data.token })
         history.replace('/dailyExpense');
       }).catch(err=>{
         alert(err.message);
