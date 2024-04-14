@@ -31,6 +31,7 @@ const authSlice = createSlice({
 const initialExpenseState = {
     editedItem: null,
     isEdit: false,
+    isDarkTheme: false
 }
 
 const expenseSlice = createSlice({
@@ -46,6 +47,10 @@ const expenseSlice = createSlice({
         //     state.editedItem = false;
         //     state.isEdit = false;
         // }
+
+        toggleDarkTheme(state){
+            state.isDarkTheme = !state.isDarkTheme;
+        }
     }
 })
 

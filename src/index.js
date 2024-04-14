@@ -7,8 +7,8 @@ import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom';
 // import '../node_modules/react-bootstrap/dist/react-bootstrap';
 // import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { AuthContextProvider } from './Components/Context-folder/Auth-Context';
-import { ExpenseContextProvider } from './Components/Context-folder/Expense-Context';
+// import { AuthContextProvider } from './Components/Context-folder/Auth-Context';
+// import { ExpenseContextProvider } from './Components/Context-folder/Expense-Context';
 import {Provider} from 'react-redux';
 import store from './Store/index.js';
 

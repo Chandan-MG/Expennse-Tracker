@@ -1,8 +1,8 @@
-import React, {Fragment, useContext, useState} from "react";
+import React, {Fragment, useState} from "react";
 import './ExpenseInput.css';
 import ExpenceList from "./ExpenseList";
-import ExpenseContext from "../Context-folder/Expense-Context";
-import {useDispatch, useSelector} from 'react-redux'
+// import ExpenseContext from "../Context-folder/Expense-Context";
+import { useSelector} from 'react-redux'
 
 const ExpenseInput = (props) => {
     const [ enteredMoney, setEnteredMoney] = useState('');
@@ -11,11 +11,11 @@ const ExpenseInput = (props) => {
 
     const [expensedata, setExpenseData] = useState([]);
 
-    const expenseCtx = useContext(ExpenseContext);
+    // const expenseCtx = useContext(ExpenseContext);
 
     const editedItem = useSelector(state => state.expense.editedItem);
     const isEdit = useSelector(state => state.expense.isEdit);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const moneyChangedHandler = (event) =>{
         setEnteredMoney(event.target.value);

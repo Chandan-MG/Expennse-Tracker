@@ -3,13 +3,14 @@ import './Expense.css';
 import {Row, Col, Button} from 'react-bootstrap';
 import ExpenseContext from "../Context-folder/Expense-Context";
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { expenseActions } from "../../Store";
 
 const Expense = (props) => {
     // const expenseCtx = useContext(ExpenseContext);
 
     const dispatch = useDispatch();
+    const isDarkTheme = useSelector(state => state.expense.isDarkTheme);
 
     const deleteExpenseHandler = async (id) => {
         // console.log(id);
@@ -39,12 +40,17 @@ const Expense = (props) => {
         // expenseCtx.onEdit(value);
     };
 
+    const toggleThemHandler = () => {
+        dispatch(expenseActions.toggleDarkTheme())
+    }
+
+
     return(  
-    <div className="expense-item">
+    <div className={`expense-item ${isDarkTheme ? 'dark-theme' : ''}`}>
         <Row className="expense-row">
             <Col xs={3} className="expense-col">
                 {props.money}
-                { props.money > 10000 && (<Button variant="warning">Premium</Button>)}
+                { props.money > 10000 && (<Button variant="warning" onClick={toggleThemHandler}>Premium</Button>)}
             </Col>
 
             <Col xs={3} className="expense-col">
