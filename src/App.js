@@ -10,9 +10,6 @@ import ExpenseInput from './Components/Expenses/ExpenseInput';
 
 function App() {
   return (
-    // <div style={{marginTop: '15%'}}>
-    //   <AuthForm />
-    // </div>
     <Layout>
       <Switch>
         <Route path='/' exact>
