@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import './Expense.css';
 import {Row, Col, Button} from 'react-bootstrap';
-import ExpenseContext from "../Context-folder/Expense-Context";
 
 import {useDispatch, useSelector} from 'react-redux';
 import { expenseActions } from "../../Store";
 
 const Expense = (props) => {
+    // console.log(props.id);
     // const expenseCtx = useContext(ExpenseContext);
-
     const dispatch = useDispatch();
     const isDarkTheme = useSelector(state => state.expense.isDarkTheme);
 

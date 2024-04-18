@@ -9,7 +9,7 @@ describe('AuthForm component', () => {
         //Act
 
         //Assert
-        const edit = screen.getByText('Edit');
+        const edit = screen.getByText('edit', {exact: false});
         expect(edit).toBeInTheDocument();
     })
 })

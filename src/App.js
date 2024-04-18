@@ -5,7 +5,6 @@ import AuthForm from './Components/Auth/AuthForm';
 import Layout from './Components/Layout/Layout';
 import ExpenceTracker from './Components/ExpenceTracker/ExpenceTracker';
 import UpdateProfile from './Components/UpdateProfile/UpdateProfile';
-import DailyExpenses from './Components/Expenses/ExpenseInput';
 import ExpenseInput from './Components/Expenses/ExpenseInput';
 
 function App() {

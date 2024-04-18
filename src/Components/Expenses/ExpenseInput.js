@@ -1,21 +1,35 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import './ExpenseInput.css';
 import ExpenceList from "./ExpenseList";
 // import ExpenseContext from "../Context-folder/Expense-Context";
-import { useSelector} from 'react-redux'
+import { useSelector, useDispatch} from 'react-redux'
+import {Button} from 'react-bootstrap';
+import { authActions } from "../../Store";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const ExpenseInput = (props) => {
-    const [ enteredMoney, setEnteredMoney] = useState('');
+    const editedItem = useSelector(state => state.expense.editedItem);
+    
+    const user = useSelector(state => state.auth.token);
+    const [ enteredMoney, setEnteredMoney] = useState('') ;
     const [ enteredDescription, setEnteredDescription] = useState('');
     const [ enteredCategory, setEnteredCategory] = useState('');
 
     const [expensedata, setExpenseData] = useState([]);
-
+    const history = useHistory();
     // const expenseCtx = useContext(ExpenseContext);
 
-    const editedItem = useSelector(state => state.expense.editedItem);
+    // const editedItem = useSelector(state => state.expense.editedItem);
     const isEdit = useSelector(state => state.expense.isEdit);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (isEdit && editedItem) {
+            setEnteredMoney(editedItem.money);
+            setEnteredDescription(editedItem.description);
+            setEnteredCategory(editedItem.category);
+        }
+    }, [isEdit, editedItem]);
 
     const moneyChangedHandler = (event) =>{
         setEnteredMoney(event.target.value);
@@ -37,9 +51,11 @@ const ExpenseInput = (props) => {
         }
 
         const expenseData = {
+            // id: Math.random().toString(),
             money : enteredMoney,
             description : enteredDescription,
-            category : enteredCategory
+            category : enteredCategory,
+            userID: user
         };
 
 
@@ -74,7 +90,8 @@ const ExpenseInput = (props) => {
             // id: editedItem.id,
             money : enteredMoney,
             description : enteredDescription,
-            category : enteredCategory
+            category : enteredCategory,
+            userID: user
         };
 
 
@@ -93,9 +110,16 @@ const ExpenseInput = (props) => {
         setEnteredCategory('');
     }
 
+    const logoutHandler = () =>{
+        dispatch(authActions.logout());
+        history.replace('/');
+    }
 
     return(
         <Fragment>
+            <div className="d-flex justify-content-end" style={{'padding': '1%'}}>
+                <Button variant='secondary' onClick={logoutHandler}>Logout</Button>
+            </div>
             { !isEdit && (<div className="input-card">
                 <form onSubmit={submitFormHandler}>
                     <div className='expense-controls'>
@@ -127,15 +151,15 @@ const ExpenseInput = (props) => {
                     <div className='expense-controls'>
                         <div className='expense-control'>
                             <label id='money' >Money Spent</label>
-                            <input type='number' id='money' value={editedItem.money} onChange={moneyChangedHandler} />
+                            <input type='number' id='money' value={enteredMoney} onChange={moneyChangedHandler} />
                         </div>
                         <div className='expense-control'>
                             <label id='description' >Description</label>
-                            <input type='text' id='description' value={editedItem.description} onChange={descriptionChangedHandler} />
+                            <input type='text' id='description' value={enteredDescription} onChange={descriptionChangedHandler} />
                         </div>
                         <div className='expense-control'>
                             <label id='category' >Category</label>
-                            <select  id='category' value={editedItem.category} onChange={categoryChangedHandler}>
+                            <select  id='category' value={enteredCategory} onChange={categoryChangedHandler}>
                                 <option>Select Any</option>
                                 <option value='Food'>Food</option>
                                 <option value='Petrol'>Petrol</option>

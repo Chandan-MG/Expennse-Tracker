@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import './ExpenseList.css';
 import Expense from "./Expense";
 import {Button} from 'react-bootstrap';
+import { useSelector} from 'react-redux'
 
 const ExpenceList = () =>{
-
+    const user = useSelector(state => state.auth.token);
+    // console.log(user);
     const [expense, setExpense] = useState([]);
 
     useEffect(() => {
@@ -13,20 +15,31 @@ const ExpenceList = () =>{
                 const response = await fetch(`https://expense-tracker-dfeec-default-rtdb.firebaseio.com/expense.json`);
                 if (response.ok) {
                     const expenseItemsObject = await response.json();
-                    const keys = Object.keys(expenseItemsObject);
-                    const expensesArray = keys.map(key => ({
-                        id: key,
-                        ...expenseItemsObject[key]
-                    }));
-                    setExpense(expensesArray);
+                    if (expenseItemsObject) {
+                        const keys = Object.keys(expenseItemsObject);
+                        const expensesArray = keys.map(key => ({
+                            id: key,
+                            ...expenseItemsObject[key]
+                        }));
+                        const filteredExpenses = expensesArray.filter(expense => expense.userID === user);
+                        setExpense(filteredExpenses);
+                    } else {
+                        console.log('No expenses found for the user.');
+                        setExpense([]);
+                    }
+                } else {
+                    console.error('Error fetching expenses:', response.status, response.statusText);
                 }
             } catch (error) {
                 console.error('Error fetching:', error);
             }
         };
-
+    
         fetchListItems();
-    }, [expense]);
+    }, [expense, user]);
+    
+    
+    
 
     
 
@@ -50,7 +63,8 @@ const ExpenceList = () =>{
     return(
         
         <div className="list-card">
-            <ul>
+            { expense.length === 0 && (<div>No data...</div>) }
+            { expense.length !== 0 && (<ul>
                 <Button variant="secondary" onClick={downloadCSV} style={{marginBottom: '5px'}}>Download CSV</Button>
                 { expense.map(newExpense => (
                     <Expense
@@ -61,7 +75,7 @@ const ExpenceList = () =>{
                         category = {newExpense.category}
                     />
                 ))}
-            </ul>
+            </ul>)}
         </div>
     )
 }

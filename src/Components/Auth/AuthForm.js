@@ -1,8 +1,6 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef } from "react";
 import './AuthForm.css';
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
-import AuthContext from "../Context-folder/Auth-Context";
-import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from "../../Store";
 
@@ -70,7 +68,8 @@ const AuthForm =()=>{
       ).then(data=>{
         alert("Logged In Successfully");
         // authCtx.login(data.idToken);
-        authActions.login({ token: data.token })
+        // console.log(data.email);
+        dispatch(authActions.login({ token: data.email }));
         history.replace('/dailyExpense');
       }).catch(err=>{
         alert(err.message);
